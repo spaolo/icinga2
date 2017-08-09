@@ -584,10 +584,13 @@ void DbEvents::RemoveDowntimeInternal(std::vector<DbQuery>& queries, const Downt
 	query1.Type = DbQueryDelete;
 	query1.Category = DbCatDowntime;
 	query1.WhereCriteria = new Dictionary();
+
 	query1.WhereCriteria->Set("object_id", checkable);
-	query1.WhereCriteria->Set("internal_downtime_id", downtime->GetLegacyId());
 	query1.WhereCriteria->Set("entry_time", DbValue::FromTimestamp(downtime->GetEntryTime()));
 	query1.WhereCriteria->Set("instance_id", 0); /* DbConnection class fills in real ID */
+	query1.WhereCriteria->Set("scheduled_start_time", DbValue::FromTimestamp(downtime->GetStartTime()));
+	query1.WhereCriteria->Set("scheduled_end_time", DbValue::FromTimestamp(downtime->GetEndTime()));
+	query1.WhereCriteria->Set("name", downtime->GetName());
 	queries.push_back(query1);
 
 	/* History - update actual_end_time, was_cancelled for service (and host in case) */
@@ -612,9 +615,11 @@ void DbEvents::RemoveDowntimeInternal(std::vector<DbQuery>& queries, const Downt
 
 	query3.WhereCriteria = new Dictionary();
 	query3.WhereCriteria->Set("object_id", checkable);
-	query3.WhereCriteria->Set("internal_downtime_id", downtime->GetLegacyId());
 	query3.WhereCriteria->Set("entry_time", DbValue::FromTimestamp(downtime->GetEntryTime()));
 	query3.WhereCriteria->Set("instance_id", 0); /* DbConnection class fills in real ID */
+	query3.WhereCriteria->Set("scheduled_start_time", DbValue::FromTimestamp(downtime->GetStartTime()));
+	query3.WhereCriteria->Set("scheduled_end_time", DbValue::FromTimestamp(downtime->GetEndTime()));
+	query3.WhereCriteria->Set("name", downtime->GetName());
 
 	queries.push_back(query3);
 
