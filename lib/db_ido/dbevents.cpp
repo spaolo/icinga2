@@ -407,10 +407,10 @@ void DbEvents::RemoveCommentInternal(std::vector<DbQuery>& queries, const Commen
 	query1.Type = DbQueryDelete;
 	query1.Category = DbCatComment;
 	query1.WhereCriteria = new Dictionary();
-	query1.WhereCriteria->Set("internal_comment_id", comment->GetLegacyId());
 	query1.WhereCriteria->Set("object_id", checkable);
-	query1.WhereCriteria->Set("comment_time", DbValue::FromTimestamp(entry_time));
+	query1.WhereCriteria->Set("entry_time", DbValue::FromTimestamp(entry_time));
 	query1.WhereCriteria->Set("instance_id", 0); /* DbConnection class fills in real ID */
+	query1.WhereCriteria->Set("name", comment->GetName());
 	queries.push_back(query1);
 
 	/* History - update deletion time for service/host */
@@ -430,8 +430,9 @@ void DbEvents::RemoveCommentInternal(std::vector<DbQuery>& queries, const Commen
 	query2.WhereCriteria = new Dictionary();
 	query2.WhereCriteria->Set("internal_comment_id", comment->GetLegacyId());
 	query2.WhereCriteria->Set("object_id", checkable);
-	query2.WhereCriteria->Set("comment_time", DbValue::FromTimestamp(entry_time));
+	query1.WhereCriteria->Set("entry_time", DbValue::FromTimestamp(entry_time));
 	query2.WhereCriteria->Set("instance_id", 0); /* DbConnection class fills in real ID */
+	query1.WhereCriteria->Set("name", comment->GetName());
 	queries.push_back(query2);
 }
 
