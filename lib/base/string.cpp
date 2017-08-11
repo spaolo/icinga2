@@ -20,6 +20,7 @@
 #include "base/string.hpp"
 #include "base/value.hpp"
 #include "base/primitivetype.hpp"
+#include "base/tlsutility.hpp"
 #include "base/dictionary.hpp"
 #include <ostream>
 
@@ -50,5 +51,19 @@ String& String::operator+=(const Value& rhs)
 {
 	m_Data += static_cast<String>(rhs);
 	return *this;
+}
+
+bool String::TimeConstantCompare(const String& other) const
+{
+	const String hashed1 = SHA256(*this);
+	const String hashed2 = SHA256(other);
+
+	const char *p1 = hashed1.CStr();
+	const char *p2 = hashed2.CStr();
+
+	volatile char c = 0;
+	for (size_t i=0; i<64; ++i)
+		c |= p1[i] ^ p2[i];
+	return (c == 0);
 }
 

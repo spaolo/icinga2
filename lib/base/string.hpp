@@ -299,6 +299,8 @@ public:
 		return m_Data.erase(first, last);
 	}
 
+	bool TimeConstantCompare(const String& other) const;
+
 	template<typename InputIterator>
 	void insert(Iterator p, InputIterator first, InputIterator last)
 	{

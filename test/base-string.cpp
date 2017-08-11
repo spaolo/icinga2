@@ -118,4 +118,16 @@ BOOST_AUTO_TEST_CASE(find)
 	BOOST_CHECK(s.FindFirstOf("xl") == 2);
 }
 
+BOOST_AUTO_TEST_CASE(time_constant_compare)
+{
+	BOOST_CHECK(String("hello").TimeConstantCompare(String("hello")));
+	BOOST_CHECK(!String("hello").TimeConstantCompare(String("hello world")));
+
+	BOOST_CHECK(String("hello").TimeConstantCompare("hello"));
+	BOOST_CHECK(!String("hello").TimeConstantCompare("hello world"));
+
+	BOOST_CHECK(!String("hello").TimeConstantCompare(
+"hello world, this is a very long string! Longer than SHA256 64 Bytes even!"));
+}
+
 BOOST_AUTO_TEST_SUITE_END()
