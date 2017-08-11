@@ -139,6 +139,13 @@ static String StringTrim(void)
 	return self.Trim();
 }
 
+static bool StringTimeConstantCompare(const String& str)
+{
+	ScriptFrame *vframe = ScriptFrame::GetCurrentFrame();
+	String self = vframe->Self;
+	return self.TimeConstantCompare(str);
+}
+
 Object::Ptr String::GetPrototype(void)
 {
 	static Dictionary::Ptr prototype;
@@ -156,6 +163,7 @@ Object::Ptr String::GetPrototype(void)
 		prototype->Set("replace", new Function("String#replace", WrapFunction(StringReplace), { "search", "replacement" }, true));
 		prototype->Set("reverse", new Function("String#reverse", WrapFunction(StringReverse), {}, true));
 		prototype->Set("trim", new Function("String#trim", WrapFunction(StringTrim), {}, true));
+		prototype->Set("time_constant_compare", new Function("String#time_constant_compare", WrapFunction(StringTimeConstantCompare), { "str" }, true));
 	}
 
 	return prototype;

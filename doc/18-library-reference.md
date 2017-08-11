@@ -952,6 +952,19 @@ Signature:
 
 Removes trailing whitespaces and returns the string.
 
+### String#time_constant_compare <a id="string-time_constant_compare"></a>
+
+Signature:
+
+    function time_constant_compare(string);
+
+Hashes both Strings and compares them in constant time.
+
+Example:
+
+    "Hello World".time_constant_compare("Goodbye World") /* Returns false */
+
+
 ## Object type <a id="object-type"></a>
 
 This is the base type for all types in the Icinga application.
