@@ -159,7 +159,7 @@ void HttpServerConnection::ProcessMessageAsync(HttpRequest& request)
 		/* Deny authentication if 1) given password is empty 2) configured password does not match. */
 		if (password.IsEmpty())
 			user.reset();
-		else if (user && user->GetPassword() != password)
+		else if (user && !password.TimeConstantCompare(user->GetPassword()))
 			user.reset();
 	}
 
