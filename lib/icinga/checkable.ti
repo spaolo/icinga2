@@ -90,6 +90,8 @@ abstract class Checkable : CustomVarObject
 		default {{{ return true; }}}
 	};
 
+	[config, deprecated] double flapping_threshold;
+
 	[config] double flapping_threshold_low {
 		default {{{ return 25; }}}
 	};
